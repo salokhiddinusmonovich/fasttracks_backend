@@ -15,8 +15,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Fasttracks API",
+      default_version='v1',
+      description="Fasttracks project apis",
+      contact=openapi.Contact(email="usmonovsalokhiddin@gmail.com"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+
+    # Django Admin, use {% url 'admin:index' %}
+    path("system/admin/panel/", admin.site.urls),
+
+    # users
+     path("users/", include("fasttracks.apps.users.api.urls", namespace="users")),
 ]
+
+urlpatterns += [
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+]
+

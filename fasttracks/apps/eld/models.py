@@ -6,7 +6,22 @@ User = get_user_model()
 
 
 
+class VehicleManager(models.Manager):
+    def for_company(self, user):
+        try:
+            company = Company.objects.get(email=user.email)
+        except Company.DoesNotExist:
+            try:
+                driver = DRIVERS.objects.get(email=user.email)
+                company = driver.company
+            except DRIVERS.DoesNotExist:
+                return None
+        return self.filter(company=company)
 
+
+
+
+        
 class Company(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -20,7 +35,7 @@ class Company(models.Model):
     country = models.CharField(max_length=100, null=True, blank=True)
     region = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
-    postal_code = models.IntegerField(null=True, blank=True, max_length=15)
+    postal_code = models.IntegerField(null=True, blank=True)
     contact_person = models.CharField(max_length=100, null=True, blank=True)
     is_active = models.BooleanField(default=False)
 
@@ -60,7 +75,6 @@ class Vehicle(models.Model):
     device_version = models.CharField(max_length=500, blank=True, null=True)
     status = models.BooleanField(default=True)
     fuel_type = models.CharField(max_length=200, null=True, blank=True)
-    objects = VehicleManager()
     terminated = models.DateTimeField(default=None, blank=True, null=True)
 
     def __str__(self):
@@ -100,7 +114,7 @@ class DRIVERS(models.Model):
         on_delete=models.CASCADE,
     )
     status = models.BooleanField(default=True)
-    trail_number = models.ManyToManyField(Trailer, blank=True, null=True)
+    trail_number = models.ManyToManyField(Trailer, blank=True)
     enable_dr_eld = models.BooleanField(default=False)
     enable_dr_elog = models.BooleanField(default=False)
     allow_yard = models.BooleanField(default=False)
@@ -153,7 +167,7 @@ class EventDriver(models.Model):
     driver = models.ForeignKey("DRIVERS", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.driver
+        return self.driver.name
 
 
 class RegisterCheck(models.Model):

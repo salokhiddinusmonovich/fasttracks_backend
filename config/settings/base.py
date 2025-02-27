@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "django_filters",
+    "drf_yasg",
+    "rest_framework_swagger",
+    "rest_framework_simplejwt",
+    
+]
+
+LOCAL_APPS = [
+    "fasttracks.apps.users",
+    "fasttracks.apps.eld",
+    "fasttracks.apps.event",
+    "fasttracks.apps.log",
+    "fasttracks.apps.reports",      
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,12 +123,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
+AUTH_USER_MODEL = "users.User"
+LOGIN_REDIRECT_URL = "users:redirect"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -121,3 +139,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+   
+}

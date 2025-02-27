@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class EventConfig(AppConfig):
+class EldConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'event'
+    name = 'fasttracks.apps.eld'
