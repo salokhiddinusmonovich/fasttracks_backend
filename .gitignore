@@ -286,4 +286,3 @@ fastlogz/.env
 .vscode
 .idea
 .gitlab-ci.yml
-local.yml

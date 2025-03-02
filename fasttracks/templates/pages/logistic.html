@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LogisticsPro - Advanced Logistics Solutions</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #f43f5e;
+      --primary-dark: #e11d48;
+      --secondary: #10b981;
+      --dark: #121212;
+      --darker: #0a0a0a;
+      --light: #e2e8f0;
+      --accent: #6366f1;
+      --gray: #333333;
+      --gray-light: #555555;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 0.7; }
+      100% { opacity: 0.4; }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    h3 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+      color: var(--primary);
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Layout */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      background-color: var(--darker);
+      overflow: hidden;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 10;
+      max-width: 700px;
+    }
+
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--light);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      margin-right: 10px;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: var(--light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      margin-left: 15px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Visual Elements */
+    .bg-shapes {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      opacity: 0.1;
+      filter: blur(40px);
+    }
+
+    .shape-1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
+      animation: pulse 8s infinite, float 15s infinite;
+    }
+
+    .shape-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -50px;
+      left: -50px;
+      animation: pulse 10s infinite, float 20s infinite;
+    }
+
+    .shape-3 {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      right: 20%;
+      animation: pulse 7s infinite, float 12s infinite;
+    }
+
+    /* Grid Layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    /* Cards */
+    .card {
+      background-color: rgba(25, 25, 25, 0.7);
+      border-radius: 10px;
+      padding: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(244, 63, 94, 0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(16, 185, 129, 0.2));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    /* Backend Section */
+    .backend-section {
+      background-color: var(--darker);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .backend-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .tech-badge {
+      padding: 8px 16px;
+      background-color: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: var(--primary);
+    }
+
+    .architecture-diagram {
+      position: relative;
+      height: 400px;
+      background-color: rgba(25, 25, 25, 0.7);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(244, 63, 94, 0.1);
+    }
+
+    .diagram-layer {
+      width: 80%;
+      padding: 15px;
+      margin: 10px 0;
+      background-color: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 8px;
+      text-align: center;
+      position: relative;
+    }
+
+    .diagram-layer::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background-color: rgba(244, 63, 94, 0.3);
+    }
+
+    .diagram-layer:last-child::after {
+      display: none;
+    }
+
+    /* Features Section */
+    .features-section {
+      background-color: var(--dark);
+    }
+
+    /* Stats Section */
+    .stats-section {
+      background-color: var(--darker);
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .stat-card {
+      background-color: rgba(25, 25, 25, 0.7);
+      border-radius: 10px;
+      padding: 30px;
+      border: 1px solid rgba(244, 63, 94, 0.1);
+    }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--darker);
+      padding: 60px 0 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-links h4 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: var(--light);
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--gray);
+      color: var(--gray-light);
+      font-size: 0.9rem;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--darker);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .mobile-menu-links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .mobile-menu-links a {
+      color: var(--light);
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .mobile-menu-links a:hover {
+      color: var(--primary);
+    }
+
+    .mobile-menu-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .container {
+        width: 95%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      h1 {
+        font-size: 2.8rem;
+      }
+      
+      h2 {
+        font-size: 2rem;
+      }
+      
+      .backend-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .architecture-diagram {
+        height: auto;
+        padding: 30px 20px;
+      }
+
+      .diagram-layer {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      section {
+        padding: 60px 0;
+      }
+
+      h1 {
+        font-size: 2.3rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        text-align: center;
+      }
+
+      h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .header-content {
+        text-align: center;
+      }
+
+      .btn {
+        padding: 10px 20px;
+      }
+
+      .btn-secondary {
+        margin-left: 0;
+        margin-top: 15px;
+      }
+
+      .tech-stack {
+        justify-content: center;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        width: 100%;
+        padding: 0 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+      }
+
+      .logo-icon {
+        width: 35px;
+        height: 35px;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+
+      .footer-links h4 {
+        text-align: center;
+      }
+
+      .footer-links ul {
+        text-align: center;
+      }
+
+      .footer-links p {
+        text-align: center;
+      }
+
+      .header-content {
+        padding: 0 10px;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 101;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    /* Code Block Styling */
+    .code-block {
+      background-color: rgba(15, 15, 15, 0.8);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+
+    .code-comment {
+      color: #888888;
+    }
+
+    .code-keyword {
+      color: #ec4899;
+    }
+
+    .code-string {
+      color: #10b981;
+    }
+
+    .code-function {
+      color: #f43f5e;
+    }
+
+    /* Scroll to top button */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+      z-index: 100;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      background-color: var(--primary-dark);
+    }
+
+    @media (max-width: 576px) {
+      .scroll-top {
+        width: 40px;
+        height: 40px;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">L</div>
+        LogisticsPro
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#backend">Backend</a>
+        <a href="#stats">Performance</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="mobile-menu-btn">☰</button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <button class="mobile-menu-close">&times;</button>
+    <div class="mobile-menu-links">
+      <a href="#features">Features</a>
+      <a href="#backend">Backend</a>
+      <a href="#stats">Performance</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+      <div class="header-content">
+        <h1>Next-Generation Logistics Platform</h1>
+        <p>Revolutionize your supply chain with our cutting-edge logistics solution powered by a robust, scalable backend architecture. Real-time tracking, intelligent routing, and predictive analytics all in one platform.</p>
+        <div class="header-buttons">
+          <a href="#features" class="btn">Explore Features</a>
+          <a href="#backend" class="btn btn-secondary">Backend Architecture</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <h2>Powerful Logistics Features</h2>
+      <p>Our platform combines advanced technology with intuitive design to streamline your logistics operations.</p>
+      
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck" style="color: var(--primary);">
+              <path d="M10 17h4V5H2v12h3"/>
+              <path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+              <circle cx="7.5" cy="17.5" r="2.5"/>
+              <circle cx="17.5" cy="17.5" r="2.5"/>
+            </svg>
+          </div>
+          <h3>Fleet Management</h3>
+          <p>Optimize your fleet operations with real-time vehicle tracking, maintenance scheduling, and driver performance analytics.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map" style="color: var(--primary);">
+              <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+              <line x1="9" x2="9" y1="3" y2="18"/>
+              <line x1="15" x2="15" y1="6" y2="21"/>
+            </svg>
+          </div>
+          <h3>Route Optimization</h3>
+          <p>AI-powered routing algorithms that consider traffic, weather, and delivery windows to create the most efficient delivery paths.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package" style="color: var(--primary);">
+              <path d="m7.5 4.27 9 5.15"/>
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+              <path d="m3.3 7 8.7 5 8.7-5"/>
+              <path d="M12 22V12"/>
+            </svg>
+          </div>
+          <h3>Inventory Management</h3>
+          <p>Keep track of your inventory across multiple warehouses with real-time updates, automated reordering, and demand forecasting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Backend Architecture Section -->
+  <section id="backend" class="backend-section">
+    <div class="bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+      <div class="backend-grid">
+        <div>
+          <h2>Powerful Backend Architecture</h2>
+          <p>Our logistics platform is built on a modern, scalable backend architecture designed for high performance, reliability, and security.</p>
+          
+          <div class="tech-stack">
+            <span class="tech-badge">Django</span>
+            <span class="tech-badge">Celery</span>
+            <span class="tech-badge">PostgreSQL</span>
+            <span class="tech-badge">Redis</span>
+            <span class="tech-badge">Kubernetes</span>
+            <span class="tech-badge">Docker</span>
+            <span class="tech-badge">AWS</span>
+            <span class="tech-badge">Microservices</span>
+          </div>
+          
+          <h3>Example API endpoint for </h3>
+        <div class="code-block">
+            <span class="code-keyword">class</span> DriversView(APIView):<br>
+            &nbsp;&nbsp;queryset = models.DRIVERS.objects.all()<br><br>
+            &nbsp;&nbsp;<span class="code-comment"># Returns list of drivers with available vehicle_id</span><br>
+            &nbsp;&nbsp;<span class="code-keyword">def</span> get(self, request):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Implementation here...</span><br>
+            <br>
+            &nbsp;&nbsp;<span class="code-comment"># Creates drivers with given vehicle_id</span><br>
+            &nbsp;&nbsp;<span class="code-keyword">def</span> post(self, request):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Implementation here...</span><br>
+            <br>
+            &nbsp;&nbsp;<span class="code-comment"># Edits drivers by given id-pk</span><br>
+            &nbsp;&nbsp;<span class="code-keyword">def</span> patch(self, request, pk):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Implementation here...</span><br>
+            <br>
+            &nbsp;&nbsp;<span class="code-comment"># Deletes driver by given id-pk</span><br>
+            &nbsp;&nbsp;<span class="code-keyword">def</span> delete(self, request, pk):<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment"># Implementation here...</span><br>
+        </div>
+        </div>
+        
+        <div class="architecture-diagram">
+          <div class="diagram-layer">
+            <strong>Client Applications</strong>
+            <p>Web, Mobile, IoT Devices</p>
+          </div>
+          <div class="diagram-layer">
+            <strong>API Gateway</strong>
+            <p>Authentication, Rate Limiting, Routing</p>
+          </div>
+          <div class="diagram-layer">
+            <strong>Microservices</strong>
+            <p>Tracking, Routing, Inventory, Analytics</p>
+          </div>
+          <div class="diagram-layer">
+            <strong>Data Layer</strong>
+            <p>PostgreSQL, Redis, Time-series DB</p>
+          </div>
+          <div class="diagram-layer">
+            <strong>Infrastructure</strong>
+            <p>Kubernetes, AWS, CI/CD Pipeline</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section id="stats" class="stats-section">
+    <div class="container">
+      <h2>Performance Metrics</h2>
+      <p>Our platform delivers exceptional performance that translates to real business results.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">99.9%</div>
+          <p>Uptime Guarantee</p>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">30%</div>
+          <p>Reduction in Delivery Time</p>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">5000+</div>
+          <p>API Requests per Second</p>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">25%</div>
+          <p>Fuel Cost Savings</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="bg-shapes">
+      <div class="shape shape-2"></div>
+    </div>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-links">
+          <a href="#" class="logo">
+            <div class="logo-icon">L</div>
+            LogisticsPro
+          </a>
+          <p>Next-generation logistics platform with powerful backend architecture for seamless supply chain management.</p>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Solutions</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Sales</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Demo</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2025 LogisticsPro. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <div class="scroll-top">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m18 15-6-6-6 6"/>
+    </svg>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-links a');
+
+    mobileMenuBtn.addEventListener('click', function() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    mobileMenuClose.addEventListener('click', function() {
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Animate numbers on scroll
+    const statNumbers = document.querySelectorAll('.stat-number');
+    let animatedStats = false;
+    
+    function animateNumbers() {
+      if (animatedStats) return;
+      
+      animatedStats = true;
+      statNumbers.forEach(number => {
+        const target = parseFloat(number.textContent);
+        const suffix = number.textContent.replace(/[0-9.]/g, '');
+        let count = 0;
+        const duration = 2000; // ms
+        const increment = target / (duration / 16);
+        
+        const timer = setInterval(() => {
+          count += increment;
+          if (count >= target) {
+            clearInterval(timer);
+            count = target;
+          }
+          
+          // Format the number appropriately
+          let displayNumber;
+          if (Number.isInteger(target)) {
+            displayNumber = Math.floor(count);
+          } else {
+            displayNumber = count.toFixed(1);
+          }
+          
+          number.textContent = displayNumber + suffix;
+        }, 16);
+      });
+    }
+
+    // Scroll to top button
+    const scrollTopBtn = document.querySelector('.scroll-top');
+    
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
+    
+    scrollTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Intersection observer for animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('stats-grid')) {
+            animateNumbers();
+          }
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    observer.observe(document.querySelector('.stats-grid'));
+
+    // Add animation to cards on scroll
+    const cards = document.querySelectorAll('.card');
+    const cardObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+      card.style.opacity = 0;
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      cardObserver.observe(card);
+    });
+  </script>
+</body>
+</html>
