@@ -1,9 +1,0 @@
-# PostgreSQL
-# ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=fasttracks
-POSTGRES_USER=fasttracks
-POSTGRES_PASSWORD=fasttracks
-
-DATABASE_URL=postgresql://fasttracks:fasttracks@postgres:5432/fasttracks

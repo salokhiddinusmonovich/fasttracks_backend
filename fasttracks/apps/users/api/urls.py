@@ -8,7 +8,7 @@ from fasttracks.apps.users.api.v1.views.user_views import (
 
 app_name = "users"
 urlpatterns = [
-    path("~redirect/", view=user_redirect_api, name="redirect"),
-    path("~update/", view=user_update_api, name="update"),
-    path("<str:username>/", view=user_detail_api, name="detail"),
+    path("redirect/", view=user_redirect_api, name="redirect"),
+    path("update/", view=user_update_api, name="update"),
+    path("<str:email>/", view=user_detail_api, name="detail-by-email"),
 ]

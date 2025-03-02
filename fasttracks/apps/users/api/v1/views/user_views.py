@@ -12,8 +12,8 @@ User = get_user_model()
 
 class UserDetailAPI(generics.RetrieveAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer()
-    lookup_field = "username"
+    serializer_class = UserSerializer
+    lookup_field = "email"
     permission_classes = [permissions.IsAuthenticated]
 
 
@@ -30,7 +30,7 @@ class UserRedirectAPI(APIView):
 
     def get(self, request, *args, **kwargs):
         url = reverse("users:detail", kwargs={"email": request.user.email})
-        return Response({"redirect_url": request.build_absolute_url(url)})
+        return Response({"redirect_url": request.build_absolute_uri(url)}) 
 
 user_detail_api = UserDetailAPI.as_view()
 user_update_api = UserUpdatedAPI.as_view()
