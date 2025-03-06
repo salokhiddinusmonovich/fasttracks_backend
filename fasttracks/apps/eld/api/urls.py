@@ -8,6 +8,8 @@ app_name = "eld"
 
 company_url = [
     path("register/v1", auth_view.RegisterFirstVersionAPI.as_view()),
+    path('verify/v1', auth_view.CheckActiveationCodeFirstVersionAPI.as_view()),
+
 ]
 
 

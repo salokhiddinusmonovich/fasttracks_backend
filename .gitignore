@@ -274,12 +274,10 @@ Session.vim
 # Auto-generated tag files
 tags
 
-### Project template
-fastlogz/media/
 
 .pytest_cache/
 .ipython/
-fastlogz/.env
+fasttracks/.env
 .envs/*
 !.envs/.local/
 
