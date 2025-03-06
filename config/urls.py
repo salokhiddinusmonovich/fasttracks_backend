@@ -21,6 +21,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from django.views.generic import TemplateView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -41,12 +42,18 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path("system/admin/panel/", admin.site.urls),
 
-    # users
-     path("users/", include("fasttracks.apps.users.api.urls", namespace="users")),
+    path("", TemplateView.as_view(template_name="pages/logistic.html"), name="home"),
+
+    # users app
+    path("users/", include("fasttracks.apps.users.api.urls", namespace="users")),
+
+     # eld app
+    path("eld/", include("fasttracks.apps.eld.api.urls", namespace="eld")),
+
 ]
 
 urlpatterns += [
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
