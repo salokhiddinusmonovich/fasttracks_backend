@@ -7,8 +7,8 @@ from fasttracks.apps.eld.api.v1.views import (
 app_name = "eld"
 
 company_url = [
-    path("register/v1", auth_view.RegisterFirstVersionAPI.as_view()),
-    path('verify/v1', auth_view.CheckActiveationCodeFirstVersionAPI.as_view()),
+    path("register/", auth_view.RegisterAPI.as_view()),
+    path('verify/', auth_view.VerifyAPI.as_view()),
 
 ]
 

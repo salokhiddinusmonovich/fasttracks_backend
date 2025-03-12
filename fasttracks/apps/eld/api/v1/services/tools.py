@@ -34,14 +34,13 @@ def send_verification_code_to_email_to_change_email(email: str):
 
 def send_verification_code_to_email__second_version(email: str):
     code = confirmation_code_generator()
+    subject = "Thank you for signing up for Fasttracks!"
     html_message = f"""<html> 
                         <body>
                             <h4>We`re excited to see your selfies!</h4>
-                            <h4>To complete your registration, please enter the code to previous</h4>
+                            <h4>To complete your registration, please enter the code to previous site</h4>
                             <h4>Your Activation code is: {code}</h4>
                         </body>
                         </html>"""
-    sending_message  = send_mail(subject="Thank you for signing up for Fasttracks!", 
-                                 html_message=html_message, message='', from_email=settings.EMAIL_HOST_USER,
-                                 recipient_list=[email])
+    send_mail(subject=subject, html_message=html_message, message='', from_email=settings.EMAIL_HOST_USER, recipient_list=[email])
     return code
