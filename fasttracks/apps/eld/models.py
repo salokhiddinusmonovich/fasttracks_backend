@@ -76,6 +76,7 @@ class Vehicle(models.Model):
     status = models.BooleanField(default=True)
     fuel_type = models.CharField(max_length=200, null=True, blank=True)
     terminated = models.DateTimeField(default=None, blank=True, null=True)
+    for_company_manager = VehicleManager()
 
     def __str__(self):
         return f"{self.model} - {self.vehicle_id}"
@@ -135,7 +136,9 @@ class DRIVERS(models.Model):
     city = models.CharField(max_length=100, default='')
     state = models.CharField(max_length=100, default='')
     zip = models.CharField(max_length=20, default='')
-    objects = VehicleManager()
+
+    objects = models.Manager()
+    for_company_manager = VehicleManager()
 
     def __str__(self):
         return self.name

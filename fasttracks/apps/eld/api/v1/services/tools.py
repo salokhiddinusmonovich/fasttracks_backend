@@ -12,7 +12,7 @@ def confirmation_code_generator(size=8, chars=string.digits):
 def encode_email(email: str): 
     return base64.b64encode(email.encode('utf-8')).decode('utf-8')
 
-def decode_email(encoded_email: str):
+def decode_email(encoded_email):
     return base64.b64decode(encoded_email.encode('utf-8')).decode('utf-8')
 
 

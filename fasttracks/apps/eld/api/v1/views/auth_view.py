@@ -17,8 +17,11 @@ from django.core.mail import send_mail
 from ..services import query_params
 from ...v1.serializers import auth_serializer
 import random
-
-
+from django.core.files.storage import default_storage
+from rest_framework.parsers import MultiPartParser, FormParser
+import os
+from django.core.files.base import ContentFile
+import uuid
 
 
 class RegisterAPI(GenericAPIView):
@@ -81,3 +84,64 @@ class VerifyAPI(GenericAPIView):
                 return Response({"message": "invalid verification code."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class LogoutAPI(views.APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "refresh_token": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+            required=["refresh_token"]
+        ),
+        responses={
+            200: openapi.Response(description="Successfully logged out"),
+            400: openapi.Response(description="Invalid token"),
+        },
+    )
+
+    def post(self, request):
+        try:
+            token_remove = RefreshToken(request.data["refresh_token"])
+            token_remove.blacklist()
+            return Response({"message": "logged out"})
+        except exceptions.ObjectDoesNotExist:
+            return Response({"message": "error"}, status=status.HTTP_400_BAD_REQUEST)
+        
+class FileUploadAPI(views.APIView):
+    parser_classes = (MultiPartParser, FormParser) # For handling file uplods
+
+    # Swagger parameters for file input
+    file_param = openapi.Parameter(
+        'file', openapi.IN_FORM, description="File to upload", type=openapi.TYPE_FILE
+    )
+
+    @swagger_auto_schema(manual_parameters=[file_param])
+    def post(self, request, *args, **kwargs):
+        file = request.FILES.get('file')
+
+        if not file:
+            return Response({"error": "No file uploaded"}, status=status.HTTP_400_BAD_REQUEST)
+    
+        # Generate a random file name while keeping the original extension
+        ext = os.path.splitext(file.name)[1] # get file extention 
+        random_file_name  = f'{uuid.uuid4().hex}{ext}'
+
+        file_name = default_storage.save(f'uploads/{random_file_name}', ContentFile(file.read()))       
+        
+        # Get the file URL
+        file_url = default_storage.url(file_name)
+        full_file_url = request.build_absolute_uri(file_url)
+
+        return Response(
+            {
+                "message": "File uploaded successfully",
+                "file_name": file.name,
+                "file_size": file.size,
+                "file_url": full_file_url # returning the full file URL
+            },
+            status=status.HTTP_200_OK
+        )
